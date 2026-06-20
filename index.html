@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0c1018" />
+  <meta name="description" content="A fast bedside cardiology reference tool — calculators and lookups that work offline." />
+  <title>sanjcards · bedside reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <script>try{var t=localStorage.getItem('sanjcards-theme')||'dark';document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='dark';}</script>
+  <link rel="stylesheet" href="styles.css?v=1" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="sanjcards" />
+</head>
+<body>
+  <header class="appbar">
+    <a class="brand" href="#/" aria-label="home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 120 40" class="ecg" preserveAspectRatio="none">
+          <path d="M0 20 L26 20 L30 8 L36 32 L42 20 L62 20 L68 4 L74 36 L80 20 L120 20"
+                fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="brand-text">sanj<span class="brand-accent">cards</span></span>
+    </a>
+    <button class="icon-btn" id="searchToggle" aria-label="Search">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    </button>
+  </header>
+
+  <div class="search-overlay" id="searchOverlay" hidden>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search calculators & values…" autocomplete="off" spellcheck="false" />
+      <button class="icon-btn" id="searchClose" aria-label="Close search">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+
+  <main id="app" class="app"></main>
+
+  <footer class="site-footer">
+    <p><strong>sanjcards</strong> · a quick-reference companion, not a substitute for clinical judgment.</p>
+    <p class="disclaimer">Verify every value and dose against institutional protocols before acting. For use by qualified clinicians.</p>
+  </footer>
+
+  <!-- core engine first, then content modules register into it -->
+  <script src="js/core.js?v=1"></script>
+  <script src="js/guidelines.js?v=1"></script>
+  <script src="js/hemo.js?v=1"></script>
+  <script src="js/ref.js?v=1"></script>
+  <script>
+    CARDS.start();
+    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));
+    }
+  </script>
+</body>
+</html>
